@@ -187,4 +187,14 @@ gaps outer 0
 gaps top 0
 for_window [class=".*"] border pixel 0
 
+mode "resize" {
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
 include /etc/sway/config.d/*
