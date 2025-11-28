@@ -28,12 +28,13 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+zstyle ':fzf-tab:*' fzf-flags --color=light
+
 # --------------------------------
 # general
 # --------------------------------
 
 bindkey '^P' push-line
-bindkey '^H' clear-screen
 
 setopt magic_equal_subst
 
@@ -41,6 +42,7 @@ setopt magic_equal_subst
 KEYTIMEOUT=1
 
 bindkey -M vicmd ';'  end-of-line
+bindkey -M viins '^H' backward-kill-word
 
 build_prompt() {
   local _vcs="${1:-\$(git_prompt_info)}"
