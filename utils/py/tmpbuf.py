@@ -1,107 +1,86 @@
 #!/usr/bin/env python3
 import os
-import stat
 import sys
-import subprocess
 import re
 import argparse
-import string
 from pathlib import Path
 from bench.data import DataTable, MdFormat, TermColor
 
-# Check environment variable
-tb = os.environ.get("tb")
+TMPBUF_VAR = "t"
+tb = os.environ.get(TMPBUF_VAR)
 if not tb:
-    print(TermColor.colorize(f'Env var "tb" is not set', 'red'))
+    print(TermColor.colorize(f'Env var "{TMPBUF_VAR}" is not set', 'red'))
     sys.exit(1)
 
 tb_path = Path(tb)
 tb_path.mkdir(parents=True, exist_ok=True)
 
-STANDARD_FILES = list(string.ascii_lowercase + string.digits)
 
 def get_file_size(fpath):
-    path = Path(fpath)
-    if not path.is_file():
+    p = Path(fpath)
+    if not p.is_file():
         return 0
-    return path.stat().st_size
+    return p.stat().st_size
+
+
+def list_all_files():
+    return sorted([f.name for f in tb_path.iterdir() if f.is_file()])
+
 
 def get_stats(fname, preview_len=50):
-    """
-    Returns (num_chars, preview) for the given file.
-    - num_chars is file size in bytes.
-    - preview is a collapsed snippet of up to preview_len chars.
-    """
-    fpath = os.path.join(tb_path, fname)
+    fpath = tb_path / fname
     size = get_file_size(fpath)
     if size == 0:
         return (0, "")
 
     try:
         with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
-            chunk = f.read(preview_len * 2)  # small buffer
+            chunk = f.read(preview_len * 2)
         collapsed = re.sub(r"\s+", " ", chunk).strip()
-
-        if len(collapsed) > preview_len:
-            preview = collapsed[:preview_len-2] + ".."
-        else:
-            preview = collapsed
-
+        preview = collapsed[:preview_len - 2] + ".." if len(collapsed) > preview_len else collapsed
         return (size, preview)
-
     except Exception:
         return (0, "")
 
+
 def tb_stats():
-    table = DataTable(['Buffer', 'Bytes', 'Preview'])
+    table = DataTable(['File', 'Bytes', 'Preview'])
     ctable = []
-    for fname in STANDARD_FILES:
+    for fname in list_all_files():
         size, preview = get_stats(fname)
-        if size == 0:
-            continue
         table.append([fname, size, preview])
         ctable.append(['cyan', 'yellow', 'white'])
     print(MdFormat.render(table, color_table=ctable))
 
-def tb_regen():
-    regenerated = [f for f in STANDARD_FILES if not (tb_path / f).exists()]
-    for f in regenerated:
-        (tb_path / f).touch()
-    
-    for d in string.digits:
-        p = tb_path / d
-        st = os.stat(p)
-        os.chmod(p, st.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
-
-    msg = "Regenerated files: " + ' '.join(regenerated) if regenerated else "All standard buffer files already exist."
-    print(msg)
 
 def tb_non_empty():
-    used = [fname for fname in STANDARD_FILES if get_file_size(os.path.join(tb_path, fname)) > 0]
+    used = [f for f in list_all_files() if get_file_size(tb_path / f) > 0]
     if used:
         open_editor(used)
     else:
-        print("No non-empty buffers to open.")
+        print("No non-empty files to open.")
         sys.exit(1)
 
-def tb_free(lim = len(string.ascii_lowercase)):
-    res = []
-    for fname in string.ascii_lowercase:
-        p = os.path.join(tb_path, fname)
-        if len(res) == lim:
-            break
-        if get_file_size(p) == 0:
-            res.append(fname)
-    return res
+
+def next_free_name():
+    existing = set(list_all_files())
+
+    # a–z
+    for c in "abcdefghijklmnopqrstuvwxyz":
+        if c not in existing:
+            return c
+
+    # a1–z1, a2–z2...
+    n = 1
+    while True:
+        for c in "abcdefghijklmnopqrstuvwxyz":
+            cand = f"{c}{n}"
+            if cand not in existing:
+                return cand
+        n += 1
+
 
 def open_editor(files, cd_to_base=True):
-    """
-    Open the given list of file paths in the user's preferred editor.
-
-    Args:
-        files (list of str or Path): List of file paths to open.
-        cd_to_base (bool): If True, issue a '+cd {tb_path}' command to the editor.
-    """
     if not files:
         print("No files to open.")
         sys.exit(1)
@@ -109,45 +88,37 @@ def open_editor(files, cd_to_base=True):
     editor = os.environ.get("EDITOR")
     cmd = [editor]
     if cd_to_base:
-        cmd.append(f"+cd {str(tb_path)}")
-    cmd += [os.path.join(tb_path, f) for f in files]
+        cmd.append(f"+cd {tb_path}")
+    cmd += [str(tb_path / f) for f in files]
     os.execvp(editor, cmd)
+
 
 def main():
     parser = argparse.ArgumentParser(
         description="Buffer manager utility.",
-        usage="tb [-l|--list] [-i|--init] [-e|--empty] [-u|--used] [a-z0-9]"
+        usage="tb [-l|--list] [-u|--used] [-f|--free] [filename]"
     )
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-l", "--list", action="store_true", help="Show buffer list with stats")
-    group.add_argument("-i", "--init", action="store_true", help="Initialize missing buffers")
-    group.add_argument("-f", "--free", action="store_true", help="Return list of free buffers")
-    group.add_argument("-u", "--used", action="store_true", help="Open all used buffers")
-    group.add_argument("file", nargs="?", help="Open or create buffer file a-z or 0-9")
+    group.add_argument("-l", "--list", action="store_true", help="Show file list with stats")
+    group.add_argument("-u", "--used", action="store_true", help="Open all non-empty files")
+    group.add_argument("-f", "--free", action="store_true", help="Print first available free name")
+
+    parser.add_argument("file", nargs="?", help="Open or create file")
 
     args = parser.parse_args()
 
     if args.list:
         tb_stats()
-    elif args.init:
-        tb_regen()
     elif args.used:
         tb_non_empty()
     elif args.free:
-        print(*tb_free())
+        print(next_free_name())
     elif args.file is None:
-        e = tb_free(1)
-        if len(e) > 0:
-            open_editor([e[0]])
-        else:
-            sys.exit(1)
-    elif args.file in STANDARD_FILES:
-        open_editor(args.file)
+        open_editor([next_free_name()])
     else:
-        print(f"Unknown option or file: {args.file}")
-        parser.print_usage()
-        sys.exit(1)
+        open_editor([args.file])
+
 
 if __name__ == "__main__":
     main()

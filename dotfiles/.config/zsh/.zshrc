@@ -6,7 +6,7 @@ export EDITOR=nvim
 # QOL
 export workspace=$HOME/workspace
 export scratch=$workspace/scratch
-export tb=$scratch/tmpbuf
+export t=$scratch/tmpbuf
 
 # --------------------------------
 # oh-my-zsh
@@ -103,15 +103,15 @@ fi
 
 insert_first_empty_buffer() {
     # local buf
-    # buf=$(tb -f | awk '{print $1}')
-    # zle -U "\$tb/$buf"
+    # buf=$(t -f | awk '{print $1}')
+    # zle -U "\$t/$buf"
 
-    buffers=(${(z)$(tb -f)})  # split into words
+    buffers=(${(z)$(t -f)})  # split into words
     (( ${#buffers[@]} )) || return  # exit if empty
 
     # shuffle and pick first
     buf=${buffers[RANDOM % ${#buffers[@]} + 1]}  # Zsh arrays are 1-based
-    zle -U "\$tb/$buf"
+    zle -U "\$t/$buf"
 }
 zle -N insert_first_empty_buffer
 

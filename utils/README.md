@@ -73,7 +73,7 @@ format is colors. One can specify output colors by a series of rules
 of form `[<row range>][<col range>]=<color>`, for example:
 
 ```
-dfx --from csv --to md --parse-types --md-colors "[2:][]=red,[3][2]=green" < $tb/a
+dfx --from csv --to md --parse-types --md-colors "[2:][]=red,[3][2]=green" < $t/a
 ```
 
 Would effectively color rows 2 to end as red (all columns), then overwrite
@@ -150,27 +150,27 @@ The command accepts flexible forms, for example:
 A thin layer (and a convention) to manage temporary buffers, which allows you to
 type and think slightly lesser to access such files.
 
-First set environment variable `tb` to a directory of your choice.
-`tmpbuf` or `tb` will then provide a more convenient access to
+First set environment variable `t` to a directory of your choice.
+`tmpbuf` or `t` will then provide a more convenient access to
 files `a-z` and `0-9` in the directory. Files `0-9` are executable files.
 
 ```
-tb        # Open first empty buffer in editor
-tb a      # Open buffer `a` in editor
-tb -i     # Regenerate the files
-tb -l     # List contents of all used buffers in a summarized form
-tb -u     # Open all used buffers in editor
-tb -f     # Prints all free buffers in a line
+t        # Open first empty buffer in editor
+t a      # Open buffer `a` in editor
+t -i     # Regenerate the files
+t -l     # List contents of all used buffers in a summarized form
+t -u     # Open all used buffers in editor
+t -f     # Prints all free buffers in a line
 ```
 
-The standard way to access these files also works (through env var `$tb`):
+The standard way to access these files also works (through env var `$t`):
 
 ```
-vim $tb/a
-cat $tb/a
-my_command > $tb/b
-$tb/1   # Directly execute
-rm $tb/[a-z] # Clear all
+vim $t/a
+cat $t/a
+my_command > $t/b
+$t/1   # Directly execute
+rm $t/[a-z] # Clear all
 ```
 
 --------------------------------------------------------------------------------
