@@ -42,13 +42,30 @@ def get_stats(fname, preview_len=50):
     except Exception:
         return (0, "")
 
+def human_readable_bytes(num_bytes: int) -> str:
+    units = ["B", "KB", "MB", "GB", "TB", "PB"]
+    size = float(num_bytes)
+    idx = 0
+
+    while size >= 1000 and idx < len(units) - 1:
+        size /= 1000
+        idx += 1
+
+    if idx == 0:
+        text = f"{int(size)}"
+    else:
+        text = f"{size:.2f}"
+
+    # pad so that every entry has up to 6 chars before the space
+    # (3 digits + dot + 2 decimals or fewer)
+    return f"{text:>6} {units[idx]}"
 
 def tb_stats():
     table = DataTable(['File', 'Bytes', 'Preview'])
     ctable = []
     for fname in list_all_files():
         size, preview = get_stats(fname)
-        table.append([fname, size, preview])
+        table.append([fname, human_readable_bytes(size), preview])
         ctable.append(['cyan', 'yellow', 'white'])
     print(MdFormat.render(table, color_table=ctable))
 
