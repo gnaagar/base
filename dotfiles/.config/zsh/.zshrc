@@ -13,7 +13,6 @@ export tb=$scratch/tmpbuf
 # --------------------------------
 ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-ZSH_TMUX_AUTOSTART=true
 
 DISABLE_AUTO_UPDATE=true
 zstyle ':omz:update' mode disabled
@@ -23,8 +22,11 @@ plugins=(
   git
   fzf
   fzf-tab
-  tmux
 )
+
+if [[ "$ZSH_TMUX_AUTOSTART" = true ]]; then
+  plugins+=(tmux)
+fi
 
 source $ZSH/oh-my-zsh.sh
 

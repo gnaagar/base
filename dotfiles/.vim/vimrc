@@ -82,6 +82,11 @@ nnoremap <leader>c viW~
 " Quick insert common separator
 nnoremap <leader>; 80a-<esc>
 
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
 cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 
