@@ -1,0 +1,56 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+GREY='\033[1;30m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+check_git_status() {
+    local dir="$1"
+
+    if [ ! -d "$dir/.git" ]; then
+        return
+    fi
+
+    # Optional: remove this if you don't want a fetch every run
+    git -C "$dir" fetch --quiet
+
+    # Working tree status
+    if [ -n "$(git -C "$dir" status --porcelain)" ]; then
+        status="${RED}MODIFIED${NC}"
+    else
+        status="${GREEN}CLEAN${NC}"
+    fi
+
+    # Upstream checks
+    upstream_status=""
+
+    if git -C "$dir" rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+        LOCAL=$(git -C "$dir" rev-parse @)
+        REMOTE=$(git -C "$dir" rev-parse @{u})
+        BASE=$(git -C "$dir" merge-base @ @{u})
+
+        if [ "$LOCAL" = "$REMOTE" ]; then
+            upstream_status="${GREEN}UP-TO-DATE${NC}"
+        elif [ "$LOCAL" = "$BASE" ]; then
+            upstream_status="${YELLOW}NEEDS PULL${NC}"
+        elif [ "$REMOTE" = "$BASE" ]; then
+            upstream_status="${YELLOW}NEEDS PUSH${NC}"
+        else
+            upstream_status="${RED}DIVERGED${NC}"
+        fi
+    else
+        upstream_status="${GREY}NO UPSTREAM${NC}"
+    fi
+
+    echo -e "${dir%/}: $status, $upstream_status"
+}
+
+parent_dir=${1:-$(pwd)}
+
+for dir in "$parent_dir"/*/; do
+    [ -d "$dir" ] || continue
+    check_git_status "$dir"
+done
+

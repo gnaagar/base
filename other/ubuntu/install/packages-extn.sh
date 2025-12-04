@@ -8,26 +8,28 @@ install_package() {
 
 sudo apt update -y
 
-
-install_package sway
 install_package wl-clipboard
-install_package waybar
-install_package wofi
-install_package lm-sensors
-install_package swaylock
+
+# install_package sway
+# install_package waybar
+# install_package wofi
+# install_package lm-sensors
+# install_package swaylock
 
 # Image related tools
-install_package grim
-install_package slurp
-install_package imv
+# install_package grim
+# install_package slurp
+# install_package imv
 
 # sudo usermod -aG video $USER
-install_package brightnessctl
+# install_package brightnessctl
 
-KEYMAPPER_PACKAGE=/tmp/keymapper.deb
-curl -fsSL -o $KEYMAPPER_PACKAGE https://github.com/houmain/keymapper/releases/download/4.12.1/keymapper-4.12.1-Linux-x86_64.deb
-[ "$(shasum -a 256 $KEYMAPPER_PACKAGE | awk '{print $1}')" = "a77a58e0eadb81a245065de992f855c6cfdd244300c0eb64f3daf94412998085" ] && echo "Verified package" || exit 1
-install_package $KEYMAPPER_PACKAGE
+# KEYMAPPER_PACKAGE=/tmp/keymapper.deb
+# curl -fsSL -o $KEYMAPPER_PACKAGE https://github.com/houmain/keymapper/releases/download/5.3.0/keymapper-5.3.0-Linux-x86_64.deb
+# [ "$(shasum -a 256 $KEYMAPPER_PACKAGE | awk '{print $1}')" = "ad7edc71c52dba3dbec7a2bcb10eed35956e44f94e07832559fd48ba274a3474" ] && echo "Verified package" || exit 1
+# install_package $KEYMAPPER_PACKAGE
+# Run this after install:
+# sudo systemctl enable keymapperd
 
 # GUI extn.
 # install_package i3blocks

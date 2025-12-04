@@ -23,7 +23,7 @@ set $term foot
 # Your preferred application launcher
 set $menu wmenu-run
 
-set $desktop_bg $HOME/workspace/setup/other/bg.png
+set $desktop_bg $HOME/workspace/base/other/bg.png
 
 include /etc/sway/config-vars.d/*
 
@@ -182,9 +182,19 @@ workspace $ws9 output $main_display
 bindsym $mod+Shift+c reload
 
 # Set inner/outer gaps
-gaps inner 4
-gaps outer 10
+gaps inner 2
+gaps outer 0
 gaps top 0
 for_window [class=".*"] border pixel 0
+
+mode "resize" {
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
 
 include /etc/sway/config.d/*

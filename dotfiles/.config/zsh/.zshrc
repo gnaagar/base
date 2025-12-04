@@ -6,14 +6,13 @@ export EDITOR=nvim
 # QOL
 export workspace=$HOME/workspace
 export scratch=$workspace/scratch
-export tb=$scratch/tmpbuf
+export t=$scratch/tmpbuf
 
 # --------------------------------
 # oh-my-zsh
 # --------------------------------
 ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-ZSH_TMUX_AUTOSTART=true
 
 DISABLE_AUTO_UPDATE=true
 zstyle ':omz:update' mode disabled
@@ -23,17 +22,21 @@ plugins=(
   git
   fzf
   fzf-tab
-  tmux
 )
 
+if [[ "$ZSH_TMUX_AUTOSTART" = true ]]; then
+  plugins+=(tmux)
+fi
+
 source $ZSH/oh-my-zsh.sh
+
+zstyle ':fzf-tab:*' fzf-flags --color=light
 
 # --------------------------------
 # general
 # --------------------------------
 
 bindkey '^P' push-line
-bindkey '^H' clear-screen
 
 setopt magic_equal_subst
 
@@ -41,6 +44,7 @@ setopt magic_equal_subst
 KEYTIMEOUT=1
 
 bindkey -M vicmd ';'  end-of-line
+bindkey -M viins '^H' backward-kill-word
 
 build_prompt() {
   local _vcs="${1:-\$(git_prompt_info)}"
@@ -90,23 +94,24 @@ source $ZDOTDIR/custom_post.zsh
 # --------------------------------
 # standard utils lib
 # --------------------------------
-if [[ -d "$HOME/workspace/utils/py" ]]; then
-  export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$HOME/workspace/utils/py"
+local UTILS_PY_DIR=$HOME/workspace/base/utils/py
+if [[ -d "$UTILS_PY_DIR" ]]; then
+  export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$UTILS_PY_DIR"
 fi
 
 # tmpbuf related
 
 insert_first_empty_buffer() {
     # local buf
-    # buf=$(tb -f | awk '{print $1}')
-    # zle -U "\$tb/$buf"
+    # buf=$(t -f | awk '{print $1}')
+    # zle -U "\$t/$buf"
 
-    buffers=(${(z)$(tb -f)})  # split into words
+    buffers=(${(z)$(t -f)})  # split into words
     (( ${#buffers[@]} )) || return  # exit if empty
 
     # shuffle and pick first
     buf=${buffers[RANDOM % ${#buffers[@]} + 1]}  # Zsh arrays are 1-based
-    zle -U "\$tb/$buf"
+    zle -U "\$t/$buf"
 }
 zle -N insert_first_empty_buffer
 

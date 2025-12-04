@@ -1,6 +1,8 @@
 #!/bin/bash
-
 set -euo pipefail
+INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source $INSTALL_DIR/env
+# ------------------------------------------------------------------------------
 
 # Constants
 LOCAL_INSTALL_DIR="$HOME/.local/bin"
@@ -12,7 +14,7 @@ ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 ARCH="x86_64"
 
 NVIM_VERSION='v0.11.0'
-FZF_VERSION='v0.62.0'
+FZF_VERSION='v0.67.0'
 OMZ_COMMIT_HASH="f8022980a3423f25e3d5e1b6a60d2372a2ba006b"
 FZF_TAB_VERSION='v1.2.0'
 
