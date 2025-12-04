@@ -87,11 +87,8 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-cnoremap <c-k> <up>
-cnoremap <c-j> <down>
-
-" Use common keybind for deleting words: ctrl+backspace
-inoremap <C-H> <C-W>
+cnoremap <c-p> <up>
+cnoremap <c-n> <down>
 
 " Use c in surround for markdown codeblock
 let b:surround_99 = "```\n\r\n```"
