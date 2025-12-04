@@ -1,6 +1,7 @@
 source $ZDOTDIR/custom_pre.zsh
 # --------------------------------
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.homebrew/bin:$PATH"
 export EDITOR=nvim
 
 # QOL
