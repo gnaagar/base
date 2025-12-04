@@ -177,5 +177,5 @@ make_link $DF/.config/tmux/tmux.conf $HOME/.config/tmux/tmux.conf
 make_link $DF/.local/bin/v $HOME/.local/bin/v
 make_link $DF/.local/bin/git-dirst $HOME/.local/bin/git-dirst
 
-cp $INSTALL_DIR/other/.netrc ~/.netrc
+cp -n $INSTALL_DIR/other/.netrc ~/.netrc
 
