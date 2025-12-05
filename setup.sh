@@ -80,7 +80,7 @@ install_font_iosevka() {
     return
   fi
 
-  local font_url="https://github.com/be5invis/Iosevka/releases/download/v33.2.5/PkgTTF-Iosevka-33.2.5.zip"
+  local font_url="https://github.com/be5invis/Iosevka/releases/download/v33.3.5/PkgTTF-IosevkaFixed-33.3.5.zip"
   local font_dir="$TMP_DIR/iosevka"
 
   curl -fsSL -o "$TMP_DIR/iosevka.zip" "$font_url"
@@ -177,5 +177,7 @@ make_link $DF/.config/tmux/tmux.conf $HOME/.config/tmux/tmux.conf
 make_link $DF/.local/bin/v $HOME/.local/bin/v
 make_link $DF/.local/bin/git-dirst $HOME/.local/bin/git-dirst
 
-cp -n $INSTALL_DIR/other/.netrc ~/.netrc
+cp -n $INSTALL_DIR/other/.netrc ~/.netrc || echo ".netrc already exists"
+
+echo "Done"
 

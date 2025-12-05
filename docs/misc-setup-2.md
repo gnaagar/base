@@ -1,18 +1,17 @@
 ## Mac OS setup
 
+### Terminal
+
+Uncheck this:
+
+```
+Edit -> Marks -> Automatically mark prompt lines
+```
+
+Import profile and set to default: `./other/xv3.terminal`
 
 ### Neovim
 
-
-- Download the archive, e.g. nvim-macos-arm64.tar.gz
-
 ### Brew
 
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-
-
-
-- 
+--------------------------------------------------------------------------------
