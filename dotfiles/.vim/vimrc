@@ -37,6 +37,7 @@ set autoindent                 " preserve indentation on next line
 set foldmethod=marker          " fold content inside marker (see foldmarker)
 set cursorline                 " easier to spot which line we are at
 set tildeop                    " use motions with tilde (swap case)
+set mouse=
 color xv3_light
 
 " --- MAPPINGS ---
