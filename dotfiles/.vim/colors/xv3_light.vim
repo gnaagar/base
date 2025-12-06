@@ -28,6 +28,7 @@ let s:grey2         = "242"
 let s:grey_alt     = "145"
 let s:lblue        = "153"
 let s:lgrey        = "252"
+let s:lgrey2        = "250"
 let s:off_white    = "254"
 let s:orange4 = "94"
 let s:almostwhite  = "255"
@@ -91,8 +92,8 @@ else
   call HgS("Normal", s:fg, s:bg, s:none)
 endif
 
-call HgS("StatusLine", s:bg, s:dblue, s:bold) " Status line color on active/inactive buffers 
-call HgS("StatusLineNC", s:bg, s:grey2, "")
+call HgS("StatusLine", s:fg, s:bg, s:bold) " Status line color on active/inactive buffers 
+call HgS("StatusLineNC", s:lgrey2, s:bg, "")
 call HgS("CursorLine",   "", s:almostwhite, "")
 call HgS("CursorLineNr", s:red, s:almostwhite, s:bold)
 call HgS("VertSplit", s:fg, s:off_white, "")
