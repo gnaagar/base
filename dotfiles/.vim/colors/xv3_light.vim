@@ -94,8 +94,8 @@ endif
 
 call HgS("StatusLine", s:fg, s:bg, s:bold) " Status line color on active/inactive buffers 
 call HgS("StatusLineNC", s:lgrey2, s:bg, "")
-call HgS("CursorLine",   "", s:almostwhite, "")
-call HgS("CursorLineNr", s:red, s:almostwhite, s:bold)
+call HgS("CursorLine",   "", "", "")
+call HgS("CursorLineNr", s:red, s:bg, s:bold)
 call HgS("VertSplit", s:fg, s:off_white, "")
 call HgF("Comment", s:red)
 call HgF("Keyword", s:purple)
