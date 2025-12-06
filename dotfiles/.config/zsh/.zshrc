@@ -51,7 +51,7 @@ build_prompt() {
   local _vcs="${1:-\$(git_prompt_info)}"
   local _status _path _jobs _vi
 
-  _status='%{%B%}%(?:%F{green}:%F{red})[$?]%f%{%b%}'
+  _status='%(?.%F{green}OK.%F{red}FAIL)%f'
   _path='%F{blue}%~%f'
   _jobs='%F{yellow}%(1j. (bg:%j).)%f'
   _vi='%F{white}$(vi_mode_prompt_info)%f'
