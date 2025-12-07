@@ -8,7 +8,9 @@ set background=light           " affects colors
 set notermguicolors            " we use terminal colors with xv3_light
 set hidden                     " allow modified unsaved buffers
 set encoding=utf-8             " allow a variety of characters
+set number
 set relativenumber             " relative line numbers
+set signcolumn=auto
 set incsearch                  " search as you type
 set ignorecase                 " ignore case
 set smartcase                  " case sensitive search on mixed case
