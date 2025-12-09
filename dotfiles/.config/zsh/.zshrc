@@ -33,7 +33,7 @@ fi
 source $ZSH/oh-my-zsh.sh
 
 if [[ "$THEME" = "light" ]]; then
-  ':fzf-tab:*' fzf-flags --color=light
+  zstyle ':fzf-tab:*' fzf-flags --color=light
 fi
 
 # --------------------------------
