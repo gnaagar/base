@@ -3,7 +3,7 @@ source $ZDOTDIR/custom_pre.zsh
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.homebrew/bin:$PATH"
 export EDITOR=nvim
-export THEME="dark" # For vim and certain parts in this file
+export THEME="light" # For vim and certain parts in this file
 
 # QOL
 export workspace=$HOME/workspace
