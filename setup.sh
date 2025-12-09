@@ -161,6 +161,7 @@ make_link $DF/.config/zsh/fv.zsh $HOME/.config/zsh/fv.zsh
 make_link $DF/.config/zsh/.fvlist $HOME/.config/zsh/.fvlist
 
 make_link $DF/.vim/colors/xv3_light.vim $HOME/.vim/colors/xv3_light.vim
+make_link $DF/.vim/colors/xv3_dark.vim $HOME/.vim/colors/xv3_dark.vim
 make_link $DF/.vim/custom.vim $HOME/.vim/custom.vim
 make_link $DF/.vim/filetype.vim $HOME/.vim/filetype.vim
 make_link $DF/.vim/status.vim $HOME/.vim/status.vim

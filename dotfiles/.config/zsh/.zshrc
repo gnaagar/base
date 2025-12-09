@@ -3,6 +3,7 @@ source $ZDOTDIR/custom_pre.zsh
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.homebrew/bin:$PATH"
 export EDITOR=nvim
+export THEME="dark" # For vim and certain parts in this file
 
 # QOL
 export workspace=$HOME/workspace
@@ -31,7 +32,9 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
-zstyle ':fzf-tab:*' fzf-flags --color=light
+if [[ "$THEME" = "light" ]]; then
+  ':fzf-tab:*' fzf-flags --color=light
+fi
 
 # --------------------------------
 # general
@@ -65,7 +68,9 @@ PROMPT="$(build_prompt)"
 RPROMPT=""
 MODE_INDICATOR="-- NORMAL --"
 # Better colors for fzf results
-FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=light'
+if [[ "$THEME" = "light" ]]; then
+  FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' --color=light'
+fi
 
 # --------------------------------
 # aliases
