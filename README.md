@@ -6,14 +6,16 @@
 ./setup.sh
 ```
 
-Terminal: Use default application (consider using profile provided in `config/`)
+Terminal:
+- Use default application
+- Colorscheme (pref.): `Clear Dark`
+- Font: 14pt
+- Shell multiplexing/management: Use default terminal features.
 
 Setup involves tweaking:
 - nvim
 - zsh
 - Binaries: fzf, ripgrep, tree
-
-Shell multiplexing/management: Use default terminal features.
 
 ## Environment setup: Ubuntu
 

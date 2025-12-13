@@ -23,7 +23,6 @@ autoload -Uz compinit
 compinit
 
 source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
-zstyle ':fzf-tab:*' fzf-flags --color=light
 
 if [[ -f "$HOME/homebrew/opt/fzf/shell/completion.zsh" ]]; then
   source "$HOME/homebrew/opt/fzf/shell/completion.zsh"
