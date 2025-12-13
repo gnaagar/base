@@ -2,21 +2,9 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/homebrew/bin:$PATH"
 export t=$HOME/workspace/scratch/tmpbuf
 export EDITOR=nvim
-alias v='nvim'
+alias vim='nvim'
 
-bindkey -v
-
-zle-keymap-select() {
-  MODE=$([[ $KEYMAP == vicmd ]] && print '%F{white}-- NORMAL --%f')
-  zle reset-prompt
-}
-zle -N zle-keymap-select
-zle -N zle-line-init zle-keymap-select
-
-KEYTIMEOUT=1
-setopt PROMPT_SUBST
-
-PROMPT='%(?.%F{green}OK.%F{red}FAIL)%f %F{blue}%~%f %F{yellow}%(1j. (bg:%j).)%f ${MODE}
+PROMPT='%(?.%F{green}%?.%F{red}%?)%f %F{blue}%~%f %F{yellow}%(1j. (bg:%j).)%f
 '
 
 HISTFILE=~/.zsh_history

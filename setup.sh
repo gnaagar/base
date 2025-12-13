@@ -28,7 +28,7 @@ link() {
 
 # ------------ dotfiles + install paths ------------
 INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DF="$INSTALL_DIR/dotfiles"
+DF="$INSTALL_DIR/config"
 
 link "$DF/.gitconfig"          "$HOME/.gitconfig"
 link "$DF/nvim.lua"            "$HOME/.config/nvim/init.lua"

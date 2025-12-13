@@ -21,7 +21,6 @@ vim.opt.expandtab = true       -- Use spaces instead of tabs
 vim.opt.tabstop = 2            -- 2 spaces
 vim.opt.shiftwidth = 2         -- 2 spaces
 vim.opt.softtabstop = 2        -- 2 spaces
-
 vim.opt.updatecount = 0
 
 require("lazy").setup({
@@ -45,5 +44,15 @@ require("lazy").setup({
     "echasnovski/mini.completion", 
     version = false, 
     config = function() require("mini.completion").setup({}) end 
+  },
+  {
+    "NLKNguyen/papercolor-theme",
+    lazy = false,      -- load immediately
+    priority = 1000,   -- load before other UI plugins
+    config = function()
+      vim.opt.termguicolors = true
+      vim.opt.background = "light"
+      vim.cmd.colorscheme("PaperColor")
+    end,
   },
 })
