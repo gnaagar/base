@@ -15,7 +15,7 @@ grep -q 'homebrew/bin/brew shellenv' ~/.profile || \
   echo 'eval "$($HOME/homebrew/bin/brew shellenv)"' >> ~/.profile
 
 # --- install packages (idempotent) ---
-brew install neovim fzf ripgrep
+brew install neovim fzf ripgrep tree tmux
 brew install --cask font-iosevka font-jetbrains-mono
 
 # ------------ symlink helper ------------
