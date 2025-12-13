@@ -1,5 +1,16 @@
 " Utility commands and other settings
 
+" Hide line numbers: useful while copying in terminal
+function! ToggleNumbers()
+  if &number || &relativenumber || &signcolumn !=# 'no'
+    set nonumber norelativenumber signcolumn=no
+  else
+    set number relativenumber signcolumn=auto
+  endif
+endfunction
+
+nnoremap <leader>l :call ToggleNumbers()<CR>
+
 command! Config :e $MYVIMRC
 command! TrimWhitespace execute ':%s/\s\+$//e' | let @/=''
 command! JsonIndent execute ':%!python3 -m json.tool --indent 2'

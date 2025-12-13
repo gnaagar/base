@@ -8,7 +8,9 @@ set background=light           " affects colors
 set notermguicolors            " we use terminal colors with xv3_light
 set hidden                     " allow modified unsaved buffers
 set encoding=utf-8             " allow a variety of characters
+set number
 set relativenumber             " relative line numbers
+set signcolumn=auto
 set incsearch                  " search as you type
 set ignorecase                 " ignore case
 set smartcase                  " case sensitive search on mixed case
@@ -37,7 +39,15 @@ set autoindent                 " preserve indentation on next line
 set foldmethod=marker          " fold content inside marker (see foldmarker)
 set cursorline                 " easier to spot which line we are at
 set tildeop                    " use motions with tilde (swap case)
-color xv3_light
+set mouse=
+
+if exists("$THEME")
+  if $THEME ==# "dark"
+    colorscheme xv3_dark
+  elseif $THEME ==# "light"
+    colorscheme xv3_light
+  endif
+endif
 
 " --- MAPPINGS ---
 let mapleader = " "
@@ -87,8 +97,8 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-cnoremap <c-p> <up>
-cnoremap <c-n> <down>
+cnoremap <c-k> <up>
+cnoremap <c-j> <down>
 
 " Use c in surround for markdown codeblock
 let b:surround_99 = "```\n\r\n```"
