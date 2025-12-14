@@ -4,7 +4,7 @@ export t=$HOME/workspace/scratch
 export EDITOR=nvim
 alias vim='nvim'
 
-PROMPT='%(?.%F{green}%?.%F{red}%?)%f%F{yellow}%(1j. B:%j.)%f %F{white}%20<..<%m%f %F{blue}%40<..<%~%f '
+PROMPT='%(?.%F{green}%?.%F{red}%?)%f%F{yellow}%(1j. B:%j.)%f %F{white}%20>..>%M%f %F{blue}%40<..<%~%f '
 
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
@@ -28,8 +28,13 @@ if [[ -f "$HOME/homebrew/opt/fzf/shell/completion.zsh" ]]; then
   source "$HOME/homebrew/opt/fzf/shell/key-bindings.zsh"
 fi
 
+if [[ -d "/usr/share/doc/fzf/examples" ]]; then
+  source "/usr/share/doc/fzf/examples/completion.zsh"
+  source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+fi
+
 export FZF_COMPLETION_TRIGGER='**'
 
-bindkey -M viins '^T' fzf-file-widget
-bindkey -M viins '^R' fzf-history-widget
+bindkey '^T' fzf-file-widget
+bindkey '^R' fzf-history-widget
 

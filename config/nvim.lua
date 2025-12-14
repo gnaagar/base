@@ -22,6 +22,7 @@ vim.opt.tabstop = 2            -- 2 spaces
 vim.opt.shiftwidth = 2         -- 2 spaces
 vim.opt.softtabstop = 2        -- 2 spaces
 vim.opt.updatecount = 0
+vim.opt.mouse = ""
 
 require("lazy").setup({
   { "junegunn/fzf", build = "./install --bin" },
