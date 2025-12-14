@@ -4,8 +4,7 @@ export t=$HOME/workspace/scratch
 export EDITOR=nvim
 alias vim='nvim'
 
-PROMPT='%(?.%F{green}%?.%F{red}%?)%f %F{blue}%~%f %F{yellow}%(1j. (bg:%j).)%f
-'
+PROMPT='%(?.%F{green}%?.%F{red}%?)%f%F{yellow}%(1j. B:%j.)%f %F{white}%20<..<%m%f %F{blue}%40<..<%~%f '
 
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
