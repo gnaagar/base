@@ -48,7 +48,7 @@ require("lazy").setup({
   {
     "rakr/vim-one",
     config = function()
-      vim.opt.background = "dark"
+      vim.opt.background = "light"
       vim.cmd.colorscheme("one")
     end,
   }

@@ -8,7 +8,7 @@
 
 Terminal:
 - Use default application
-- Colorscheme (pref.): `Clear Dark`
+- Colorscheme (pref.): `Basic` (default)
 - Font: 14pt
 - Shell multiplexing/management: Use default terminal features.
 
