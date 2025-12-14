@@ -1,133 +1,85 @@
 import unittest
 import time
+from datetime import datetime, timezone
 
-from bench.timestamp import TimeOutput, TimeParser, convert_time_output_to_data_table, parse_time
+from timestamp import parse_any_time, get_epoch_map, get_std_map, get_iso_map
 
 class TestTimestampParsing(unittest.TestCase):
-    def test_day_parse(self):
-        output = parse_time('2025-01-01')
-        self.assertEqual(output.epoch_seconds, 1735689600)
-        self.assertEqual(output.epoch_millis, 1735689600000)
-        self.assertEqual(output.epoch_micros, 1735689600000000)
+    def test_parse_date(self):
+        dt = parse_any_time('2025-01-01')
+        expected = datetime(2025, 1, 1, tzinfo=timezone.utc)
+        self.assertEqual(dt, expected)
 
-        self.assertIn('UTC', output.tz_times)
-        self.assertIn('IST', output.tz_times)
-        self.assertIn('PST', output.tz_times)
+    def test_parse_epoch_seconds(self):
+        dt = parse_any_time('1735689600')
+        expected = datetime.fromtimestamp(1735689600, tz=timezone.utc)
+        self.assertEqual(dt, expected)
 
-        for label in ['UTC', 'IST', 'PST']:
-            formats = output.tz_times[label]
-            self.assertEqual(len(formats), 3)  # ISO, human-readable, microseconds
+    def test_parse_epoch_millis(self):
+        dt = parse_any_time('1735689600000')
+        expected = datetime.fromtimestamp(1735689600, tz=timezone.utc)
+        self.assertEqual(dt, expected)
 
-        self.assertEqual(output.tz_times['UTC'][0], '2025-01-01 00:00:00')
-        self.assertEqual(output.tz_times['UTC'][1], '2025-01-01 00:00:00.000000')
-        self.assertEqual(output.tz_times['UTC'][2], '2025-01-01T00:00:00+0000')
+    def test_parse_epoch_micros(self):
+        dt = parse_any_time('1735689612987654')
+        expected = datetime(2025, 1, 1, 0, 0, 12, 987654, tzinfo=timezone.utc)
+        self.assertEqual(dt, expected)
 
-        self.assertEqual(output.tz_times['IST'][0], '2025-01-01 05:30:00')
-        self.assertEqual(output.tz_times['IST'][1], '2025-01-01 05:30:00.000000')
-        self.assertEqual(output.tz_times['IST'][2], '2025-01-01T05:30:00+0530')
+    def test_parse_with_timezone(self):
+        dt = parse_any_time('2025-05-26 02:10:51 PST')
+        expected = datetime(2025, 5, 26, 9, 10, 51, tzinfo=timezone.utc)
+        self.assertEqual(dt, expected)
 
-        self.assertEqual(output.tz_times['PST'][0], '2024-12-31 16:00:00')
-        self.assertEqual(output.tz_times['PST'][1], '2024-12-31 16:00:00.000000')
-        self.assertEqual(output.tz_times['PST'][2], '2024-12-31T16:00:00-0800')
+    def test_parse_none(self):
+        dt = parse_any_time(None)
+        now = datetime.now(timezone.utc)
+        self.assertAlmostEqual(dt.timestamp(), now.timestamp(), delta=1)
 
-    def test_timestamp_parse(self):
-        output = parse_time('2025-05-26 02:10:51', 'PST')
-        self.assertEqual(output.epoch_seconds, 1748250651)
-        self.assertEqual(output.epoch_millis, 1748250651000)
-        self.assertEqual(output.epoch_micros, 1748250651000000)
+    def test_parse_equality_zones(self):
+        dt1 = parse_any_time('2025-05-26 15:00:00 IST')
+        dt2 = parse_any_time('2025-05-26 02:30:00 PST')
+        self.assertEqual(dt1, dt2)
 
-        self.assertIn('UTC', output.tz_times)
-        self.assertIn('IST', output.tz_times)
-        self.assertIn('PST', output.tz_times)
+class TestTimestampOutput(unittest.TestCase):
+    def test_get_epoch_map(self):
+        dt = datetime(2025, 1, 1, tzinfo=timezone.utc)
+        result = get_epoch_map(dt)
+        expected = {
+            'epoch_s': '1735689600',
+            'epoch_ms': '1735689600000',
+            'epoch_us': '1735689600000000'
+        }
+        self.assertEqual(result, expected)
 
-        for label in ['UTC', 'IST', 'PST']:
-            formats = output.tz_times[label]
-            self.assertEqual(len(formats), 3)  # ISO, human-readable, microseconds
+    def test_get_std_map(self):
+        dt = datetime(2025, 1, 1, tzinfo=timezone.utc)
+        result = get_std_map(dt)
+        expected = {
+            'UTC': '2025-01-01 00:00:00',
+            'IST': '2025-01-01 05:30:00',
+            'PST': '2024-12-31 16:00:00'
+        }
+        self.assertEqual(result, expected)
 
-        self.assertEqual(output.tz_times['UTC'][0], '2025-05-26 09:10:51')
-        self.assertEqual(output.tz_times['UTC'][1], '2025-05-26 09:10:51.000000')
-        self.assertEqual(output.tz_times['UTC'][2], '2025-05-26T09:10:51+0000')
+    def test_get_iso_map(self):
+        dt = datetime(2025, 1, 1, tzinfo=timezone.utc)
+        result = get_iso_map(dt)
+        expected = {
+            'UTC_iso': '2025-01-01T00:00:00+00:00',
+            'IST_iso': '2025-01-01T05:30:00+05:30',
+            'PST_iso': '2024-12-31T16:00:00-08:00'
+        }
+        self.assertEqual(result, expected)
 
-        self.assertEqual(output.tz_times['IST'][0], '2025-05-26 14:40:51')
-        self.assertEqual(output.tz_times['IST'][1], '2025-05-26 14:40:51.000000')
-        self.assertEqual(output.tz_times['IST'][2], '2025-05-26T14:40:51+0530')
-
-        self.assertEqual(output.tz_times['PST'][0], '2025-05-26 02:10:51')
-        self.assertEqual(output.tz_times['PST'][1], '2025-05-26 02:10:51.000000')
-        self.assertEqual(output.tz_times['PST'][2], '2025-05-26T02:10:51-0700')
-
-    def test_us_parse(self):
-        output = parse_time('1735689612987654')
-        self.assertEqual(output.epoch_seconds, 1735689612)
-        self.assertEqual(output.epoch_millis, 1735689612987)
-        self.assertEqual(output.epoch_micros, 1735689612987654)
-
-        self.assertIn('UTC', output.tz_times)
-        self.assertIn('IST', output.tz_times)
-        self.assertIn('PST', output.tz_times)
-
-        for label in ['UTC', 'IST', 'PST']:
-            formats = output.tz_times[label]
-            self.assertEqual(len(formats), 3)  # ISO, human-readable, microseconds
-
-        self.assertEqual(output.tz_times['UTC'][0], '2025-01-01 00:00:12')
-        self.assertEqual(output.tz_times['UTC'][1], '2025-01-01 00:00:12.987654')
-        self.assertEqual(output.tz_times['UTC'][2], '2025-01-01T00:00:12+0000')
-
-        self.assertEqual(output.tz_times['IST'][0], '2025-01-01 05:30:12')
-        self.assertEqual(output.tz_times['IST'][1], '2025-01-01 05:30:12.987654')
-        self.assertEqual(output.tz_times['IST'][2], '2025-01-01T05:30:12+0530')
-
-        self.assertEqual(output.tz_times['PST'][0], '2024-12-31 16:00:12')
-        self.assertEqual(output.tz_times['PST'][1], '2024-12-31 16:00:12.987654')
-        self.assertEqual(output.tz_times['PST'][2], '2024-12-31T16:00:12-0800')
-
-    def test_equality(self):
-        self.assertEqual(
-                parse_time('2025-01-01'),
-                parse_time('1735689600')
-        )
-        self.assertEqual(
-                parse_time('2025-01-01'),
-                parse_time('2025-01')
-        )
-        self.assertEqual(
-                parse_time('2025-01-01'),
-                parse_time('2025')
-        )
-
-    def test_equality_zones(self):
-        self.assertEqual(
-                parse_time('2025-05-26 15:00:00', 'IST'),
-                parse_time('2025-05-26 02:30:00', 'PST')
-        )
-
-    def test_no_args(self):
-        now_output = parse_time()
-        now_output_exp = parse_time(str(time.time()))
-        # at least seconds should be equal
-        self.assertEqual(
-                now_output.epoch_seconds,
-                now_output_exp.epoch_seconds
-        )
-
-    def test_convert_to_datatable(self):
-        table = convert_time_output_to_data_table(parse_time('2025-05-26 02:10:51', 'PST'))
-        self.assertEqual(table.cols(), ['Category','Type','Value'])
-        self.assertEqual(table.data(),
-            [['epoch', 'seconds', 1748250651],
-             ['epoch', 'ms', 1748250651000],
-             ['epoch', 'micros', 1748250651000000],
-             ['UTC', 'standard', '2025-05-26 09:10:51'],
-             ['UTC', 'micros', '2025-05-26 09:10:51.000000'],
-             ['UTC', 'iso', '2025-05-26T09:10:51+0000'],
-             ['IST', 'standard', '2025-05-26 14:40:51'],
-             ['IST', 'micros', '2025-05-26 14:40:51.000000'],
-             ['IST', 'iso', '2025-05-26T14:40:51+0530'],
-             ['PST', 'standard', '2025-05-26 02:10:51'],
-             ['PST', 'micros', '2025-05-26 02:10:51.000000'],
-             ['PST', 'iso', '2025-05-26T02:10:51-0700']]
-        )
+    def test_get_epoch_map_with_micros(self):
+        dt = datetime(2025, 1, 1, 0, 0, 12, 987654, tzinfo=timezone.utc)
+        result = get_epoch_map(dt)
+        expected = {
+            'epoch_s': '1735689612',
+            'epoch_ms': '1735689612987',
+            'epoch_us': '1735689612987654'
+        }
+        self.assertEqual(result, expected)
 
 if __name__ == "__main__":
     unittest.main()

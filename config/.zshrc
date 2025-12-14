@@ -1,6 +1,6 @@
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/homebrew/bin:$PATH"
-export t=$HOME/workspace/scratch/tmpbuf
+export t=$HOME/workspace/scratch
 export EDITOR=nvim
 alias vim='nvim'
 
