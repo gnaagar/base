@@ -6,17 +6,26 @@
 ./setup.sh
 ```
 
-Terminal: Use default application (consider using profile provided in `config/`)
+Terminal:
+- Use default application
+- Colorscheme (pref.): `Basic` (default)
+- Font: 14pt
+- Shell multiplexing/management: Use default terminal features.
 
 Setup involves tweaking:
 - nvim
-- tmux
 - zsh
 - Binaries: fzf, ripgrep, tree
 
 ## Environment setup: Ubuntu
 
 See `archive/`.
+
+## Useful utilities
+
+- Use python `csvkit`
+  - `csvsql` for SQL queries on plaintext
+  - `csvlook` for pretty-printing tables
 
 --------------------------------------------------------------------------------
 

@@ -1,11 +1,11 @@
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/homebrew/bin:$PATH"
-export t=$HOME/workspace/scratch/tmpbuf
+export t=$HOME/workspace/scratch
 export EDITOR=nvim
 alias vim='nvim'
+alias tree='tree -a -I .git'
 
-PROMPT='%(?.%F{green}%?.%F{red}%?)%f %F{blue}%~%f %F{yellow}%(1j. (bg:%j).)%f
-'
+PROMPT='%(?.%F{green}%?.%F{red}%?)%f %F{white}%20>..>%M%f %F{blue}%40<..<%~%f %F{yellow}%(1j.B:%j .)%f'
 
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
@@ -23,15 +23,19 @@ autoload -Uz compinit
 compinit
 
 source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
-zstyle ':fzf-tab:*' fzf-flags --color=light
 
 if [[ -f "$HOME/homebrew/opt/fzf/shell/completion.zsh" ]]; then
   source "$HOME/homebrew/opt/fzf/shell/completion.zsh"
   source "$HOME/homebrew/opt/fzf/shell/key-bindings.zsh"
 fi
 
+if [[ -d "/usr/share/doc/fzf/examples" ]]; then
+  source "/usr/share/doc/fzf/examples/completion.zsh"
+  source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+fi
+
 export FZF_COMPLETION_TRIGGER='**'
 
-bindkey -M viins '^T' fzf-file-widget
-bindkey -M viins '^R' fzf-history-widget
+bindkey '^T' fzf-file-widget
+bindkey '^R' fzf-history-widget
 

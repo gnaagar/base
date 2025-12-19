@@ -1,4 +1,0 @@
-| ID  | Description  | Status   |
-| --- | ------------ | -------- |
-| 101 | Initial load | Complete |
-| 102 | Second batch | Pending  |

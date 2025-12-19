@@ -22,6 +22,7 @@ vim.opt.tabstop = 2            -- 2 spaces
 vim.opt.shiftwidth = 2         -- 2 spaces
 vim.opt.softtabstop = 2        -- 2 spaces
 vim.opt.updatecount = 0
+vim.opt.mouse = ""
 
 require("lazy").setup({
   { "junegunn/fzf", build = "./install --bin" },
@@ -46,13 +47,10 @@ require("lazy").setup({
     config = function() require("mini.completion").setup({}) end 
   },
   {
-    "NLKNguyen/papercolor-theme",
-    lazy = false,      -- load immediately
-    priority = 1000,   -- load before other UI plugins
+    "rakr/vim-one",
     config = function()
-      vim.opt.termguicolors = true
       vim.opt.background = "light"
-      vim.cmd.colorscheme("PaperColor")
+      vim.cmd.colorscheme("one")
     end,
-  },
+  }
 })

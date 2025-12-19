@@ -1,8 +1,0 @@
-show=drun
-prompt=Launch:
-columns=1
-allow_markup=true
-term=foot
-width=600
-height=400
-location=center

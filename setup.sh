@@ -35,8 +35,11 @@ link "$DF/nvim.lua"            "$HOME/.config/nvim/init.lua"
 link "$DF/.tmux.conf"          "$HOME/.tmux.conf"
 link "$DF/.zshrc"              "$HOME/.zshrc"
 
+
 cp -n "$INSTALL_DIR/other/.netrc" "$HOME/.netrc" 2>/dev/null \
   && echo "copied .netrc" || echo ".netrc exists"
+
+link "$INSTALL_DIR/utils/tz"              "$HOME/.local/bin/tz"
 
 echo "Done"
 

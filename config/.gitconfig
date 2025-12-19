@@ -1,16 +1,15 @@
 [user]
-	name = terxor
-	email = 39589847+terxor@users.noreply.github.com
+	name = gnaagar
+	email = 39589847+gnaagar@users.noreply.github.com
 
 [core]
-  editor = vim
   autocrlf = false
 
 [diff]
-    tool = nvimdiff
+  tool = nvimdiff
 
 [difftool "nvimdiff"]
-    cmd = nvim -d "$LOCAL" "$REMOTE"
+  cmd = nvim -d "$LOCAL" "$REMOTE"
 
 [difftool]
   prompt = false
