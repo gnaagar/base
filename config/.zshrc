@@ -3,6 +3,7 @@ export PATH="$HOME/homebrew/bin:$PATH"
 export t=$HOME/workspace/scratch
 export EDITOR=nvim
 alias vim='nvim'
+alias tree='tree -a -I .git'
 
 PROMPT='%(?.%F{green}%?.%F{red}%?)%f %F{white}%20>..>%M%f %F{blue}%40<..<%~%f %F{yellow}%(1j.B:%j .)%f'
 

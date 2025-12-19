@@ -21,5 +21,11 @@ Setup involves tweaking:
 
 See `archive/`.
 
+## Useful utilities
+
+- Use python `csvkit`
+  - `csvsql` for SQL queries on plaintext
+  - `csvlook` for pretty-printing tables
+
 --------------------------------------------------------------------------------
 

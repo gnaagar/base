@@ -1,2 +1,0 @@
-#!/bin/bash
-dfx --from csv --to md "$@"

@@ -1,8 +1,0 @@
-# .alacritty.toml
-
-[general]
-import = [
-  "~/.config/alacritty/base.toml",
-  "~/.config/alacritty/custom.toml"
-]
-
