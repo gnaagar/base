@@ -5,7 +5,7 @@ export EDITOR=nvim
 alias vim='nvim'
 alias tree='tree -a -I .git'
 
-PROMPT='%(?.%F{green}%?.%F{red}%?)%f %n@%m %F{blue}%40<..<%~%f %F{yellow}%(1j.B:%j .)%f'
+PROMPT='%(?.%F{green}%?.%F{red}%?)%f %F{blue}%60<..<%~%f %F{yellow}%(1j.B:%j .)%f'
 
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
