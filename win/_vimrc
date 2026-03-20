@@ -1,0 +1,39 @@
+let mapleader = " "
+set number
+set relativenumber
+set ignorecase
+set smartcase
+set nowrap
+set splitright
+set splitbelow
+
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set updatecount=0
+set mouse=
+
+call plug#begin('~/vimfiles/plugged')
+Plug 'tpope/vim-surround'
+Plug 'junegunn/vim-easy-align'
+Plug 'rakr/vim-one'
+call plug#end()
+
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+set background=dark
+colorscheme one
+
+set omnifunc=syntaxcomplete#Complete
+
+set guioptions-=m
+set guioptions-=T
+set guioptions-=r
+set guioptions-=L
+set guioptions-=b
+set guioptions+=d
+
+set lines=50 columns=140
+
