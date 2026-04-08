@@ -1,4 +1,6 @@
 let mapleader = " "
+filetype plugin indent on
+
 set number
 set relativenumber
 set ignorecase
@@ -17,14 +19,21 @@ set mouse=
 call plug#begin('~/vimfiles/plugged')
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
-Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-commentary'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
+
+nnoremap <leader>e :CtrlP<CR>
+nnoremap <leader>l :CtrlPBuffer<CR>
+nnoremap <leader>f :CtrlPLine<CR>
+let g:ctrlp_working_path_mode = 'w'
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 set background=dark
-colorscheme one
+colorscheme gruvbox
 
 set omnifunc=syntaxcomplete#Complete
 
@@ -36,4 +45,9 @@ set guioptions-=b
 set guioptions+=d
 
 set lines=50 columns=140
+
+nnoremap <leader>d "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
+
+autocmd FileType markdown setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+
 
