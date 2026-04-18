@@ -47,10 +47,10 @@ require("lazy").setup({
     config = function() require("mini.completion").setup({}) end 
   },
   {
-    "rakr/vim-one",
+    "morhetz/gruvbox",
     config = function()
-      vim.opt.background = "light"
-      vim.cmd.colorscheme("one")
+      vim.opt.background = "dark"
+      vim.cmd.colorscheme("gruvbox")
     end,
   }
 })
