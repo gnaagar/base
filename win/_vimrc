@@ -44,7 +44,7 @@ set guioptions-=L
 set guioptions-=b
 set guioptions+=d
 
-set lines=50 columns=140
+set lines=40 columns=120
 
 nnoremap <leader>d "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
 
