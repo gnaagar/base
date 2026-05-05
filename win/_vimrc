@@ -45,6 +45,7 @@ set guioptions-=b
 set guioptions+=d
 
 set lines=40 columns=120
+set guifont=Cascadia_Code:h12
 
 nnoremap <leader>d "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
 
