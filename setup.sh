@@ -1,22 +1,38 @@
 #!/bin/bash
 set -euo pipefail
 
-BREW_DIR="$HOME/homebrew"
+# ------------ package installer (apt for Debian/Ubuntu) ------------
+install_packages() {
+  if command -v apt-get >/dev/null 2>&1; then
+    # Debian/Ubuntu
+    sudo apt-get update
+    sudo apt-get install -y neovim fzf ripgrep tree tmux git curl
+  elif command -v dnf >/dev/null 2>&1; then
+    # Fedora
+    sudo dnf install -y neovim fzf ripgrep tree tmux git curl
+  elif command -v pacman >/dev/null 2>&1; then
+    # Arch
+    sudo pacman -S --noconfirm neovim fzf ripgrep tree tmux git curl
+  elif command -v zypper >/dev/null 2>&1; then
+    # openSUSE
+    sudo zypper install -y neovim fzf ripgrep tree tmux git curl
+  else
+    echo "No supported package manager found (apt/dnf/pacman/zypper)"
+    exit 1
+  fi
+}
 
-# install homebrew (no sudo)
-if ! command -v brew >/dev/null 2>&1; then
-  echo "Installing Homebrew into $BREW_DIR ..."
-  git clone https://github.com/Homebrew/brew "$BREW_DIR"
+# --- install packages ---
+echo "Installing packages..."
+install_packages
+
+# --- install Neovim plugins (lazy.nvim style) ---
+NVIM_DIR="$HOME/.local/share/nvim"
+mkdir -p "$NVIM_DIR/lazy/lazy.nvim"
+if [ ! -f "$NVIM_DIR/lazy/lazy.nvim/plugin-loader.lua" ]; then
+  echo "Installing lazy.nvim..."
+  git clone --depth 1 https://github.com/folke/lazy.nvim.git "$NVIM_DIR/lazy/lazy.nvim"
 fi
-
-# ensure brew is in PATH
-eval "$("$BREW_DIR/bin/brew" shellenv)"
-grep -q 'homebrew/bin/brew shellenv' ~/.profile || \
-  echo 'eval "$($HOME/homebrew/bin/brew shellenv)"' >> ~/.profile
-
-# --- install packages (idempotent) ---
-brew install neovim fzf ripgrep tree tmux
-brew install --cask font-iosevka font-jetbrains-mono
 
 # ------------ symlink helper ------------
 link() {
@@ -43,7 +59,7 @@ link "$INSTALL_DIR/utils/tz"              "$HOME/.local/bin/tz"
 
 echo "Done"
 
-# --- install fzf-tab
+# --- install fzf-tab ---
 
 FZFTAB_DIR="$HOME/.zsh/fzf-tab"
 FZFTAB_VERSION="v1.2.0"
