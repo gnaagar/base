@@ -19,7 +19,7 @@ set mouse=
 call plug#begin('~/vimfiles/plugged')
 Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
-Plug 'morhetz/gruvbox'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'tpope/vim-commentary'
 Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
@@ -32,8 +32,14 @@ let g:ctrlp_working_path_mode = 'w'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-set background=dark
-colorscheme gruvbox
+if $THEME ==? 'light'
+  set background=light
+  colorscheme onehalflight
+else
+  set background=dark
+  colorscheme onehalfdark
+  set guioptions+=d
+endif
 
 set omnifunc=syntaxcomplete#Complete
 
@@ -42,7 +48,6 @@ set guioptions-=T
 set guioptions-=r
 set guioptions-=L
 set guioptions-=b
-set guioptions+=d
 
 set lines=40 columns=120
 set guifont=Cascadia_Code:h12
